@@ -1,5 +1,5 @@
 package com.dfz.stopwatch;
-//
+
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +16,18 @@ public class StopwatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+        if( savedInstanceState != null){
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+        }
         runTimer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        super.onSaveInstanceState(saveInstanceState);
+        saveInstanceState.putInt("seconds", seconds);
+        saveInstanceState.putBoolean("running", running);
     }
 
     //Inicia o cronometro
@@ -53,4 +64,7 @@ public class StopwatchActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
