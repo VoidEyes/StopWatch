@@ -11,6 +11,8 @@ public class StopwatchActivity extends AppCompatActivity {
     private int seconds=0;
     //Verifica o estado do cronometro
     private boolean running;
+    //Salva o estado apos a perda de foco
+    private boolean wasrunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,7 @@ public class StopwatchActivity extends AppCompatActivity {
         if( savedInstanceState != null){
             seconds = savedInstanceState.getInt("seconds");
             running = savedInstanceState.getBoolean("running");
+            wasrunning = savedInstanceState("wasrunning");
         }
         runTimer();
     }
@@ -28,6 +31,21 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onSaveInstanceState(saveInstanceState);
         saveInstanceState.putInt("seconds", seconds);
         saveInstanceState.putBoolean("running", running);
+        saveInstanceState.putBoolean("wasrunnig",wasrunning);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        wasrunning = running;
+        running = false;
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        if (wasrunning){
+            running = true;
+        }
     }
 
     //Inicia o cronometro
